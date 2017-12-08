@@ -6,6 +6,8 @@
 ##  Columbia University
 ##  
 ##  Homework 4: Neural Networks
+##  Tests for outputs (at the tops of the "build" functions) were preformed on an Amazon EC2 p2.xlarge instance
+##  which runs a Tesla K80. 
 ##
 ##  UNI: srb2208
 ##
@@ -146,8 +148,9 @@ def build_convolution_nn():
     nn.add(drop1)
 
     # Add the second convolutional layers to the network
-    nn.add(conv)
-    nn.add(conv)
+    conv2 = Conv2D(32, (5, 5), activation='relu', padding="same")
+    nn.add(conv2)
+    nn.add(conv2)
 
     # Add the second pooling layer to reduce the feature maps to 8x8
     nn.add(pool)
@@ -260,37 +263,30 @@ def train_binary_classifier(model, xtrain, ytrain):
 if __name__ == "__main__":
 
     # Write any code for testing and evaluation in this main section.
+
+    # Build, run and test multilayer network
     xtrain, ytrain_1hot, xtest, ytest_1hot = load_cifar10()
-    nn = build_convolution_nn()
+    nn = build_multilayer_nn()
+    train_multilayer_nn(nn, xtrain, ytrain_1hot)
     nn.summary()
-    train_convolution_nn(nn, xtrain, ytrain_1hot)
     print('--')
     out = nn.evaluate(xtest, ytest_1hot)
     print(out)
 
-
-    xtrain, ytrain, xtest, ytest = get_binary_cifar10()
-    nn = build_binary_classifier()
-    train_binary_classifier(nn, xtrain, ytrain)
-    print('--')
-    out = nn.evaluate(xtest, ytest)
-    print(out)   
-
- 
-'''
+    # Build, run and test convolutional network
     xtrain, ytrain_1hot, xtest, ytest_1hot = load_cifar10()
     nn = build_convolution_nn()
     train_convolution_nn(nn, xtrain, ytrain_1hot)
+    nn.summary()
     print('--')
     out = nn.evaluate(xtest, ytest_1hot)
     print(out)
 
-
+    # Build, run and test binary classifier
     xtrain, ytrain, xtest, ytest = get_binary_cifar10()
     nn = build_binary_classifier()
     train_binary_classifier(nn, xtrain, ytrain)
+    nn.summary()
     print('--')
     out = nn.evaluate(xtest, ytest)
-    print(out)
-'''
-
+    print(out)  
