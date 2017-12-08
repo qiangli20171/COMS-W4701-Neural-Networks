@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 ####################################################################
 ##
@@ -44,8 +44,8 @@ def load_cifar10():
     xtest, ytest = test
 
     # Normalize the training and test data
-    xtrain_norm = np.multiply(xtrain, 1/255)
-    xtest_norm = np.multiply(xtest, 1/255)
+    xtrain_norm = np.multiply(xtrain, 1.0/255)
+    xtest_norm = np.multiply(xtest, 1.0/255)
 
     # Declare varibles to hold the 1 hot output labels
     ytrain_1hot = []
@@ -194,8 +194,8 @@ def get_binary_cifar10():
     xtest, ytest = test
 
     # Normalize the training and test data
-    xtrain_norm = np.multiply(xtrain, 1/255)
-    xtest_norm = np.multiply(xtest, 1/255)
+    xtrain_norm = np.multiply(xtrain, 1.0/255)
+    xtest_norm = np.multiply(xtest, 1.0/255)
 
     # Modify ytrain and ytest to be for binary classification between a vehical and animal
     # - 1 => Animal
@@ -260,15 +260,31 @@ def train_binary_classifier(model, xtrain, ytrain):
 if __name__ == "__main__":
 
     # Write any code for testing and evaluation in this main section.
-    
-    '''
+    xtrain, ytrain_1hot, xtest, ytest_1hot = load_cifar10()
+    nn = build_convolution_nn()
+    nn.summary()
+    train_convolution_nn(nn, xtrain, ytrain_1hot)
+    print('--')
+    out = nn.evaluate(xtest, ytest_1hot)
+    print(out)
+
+
+    xtrain, ytrain, xtest, ytest = get_binary_cifar10()
+    nn = build_binary_classifier()
+    train_binary_classifier(nn, xtrain, ytrain)
+    print('--')
+    out = nn.evaluate(xtest, ytest)
+    print(out)   
+
+ 
+'''
     xtrain, ytrain_1hot, xtest, ytest_1hot = load_cifar10()
     nn = build_convolution_nn()
     train_convolution_nn(nn, xtrain, ytrain_1hot)
     print('--')
     out = nn.evaluate(xtest, ytest_1hot)
     print(out)
-    '''
+
 
     xtrain, ytrain, xtest, ytest = get_binary_cifar10()
     nn = build_binary_classifier()
@@ -276,5 +292,5 @@ if __name__ == "__main__":
     print('--')
     out = nn.evaluate(xtest, ytest)
     print(out)
-
+'''
 
