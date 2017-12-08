@@ -6,7 +6,7 @@
 ##  Columbia University
 ##  
 ##  Homework 4: Neural Networks
-##  Tests for outputs (at the tops of the "build" functions) were preformed on an Amazon EC2 p2.xlarge instance
+##  Tests for outputs (at the tops of the "build" functions) were performed on an Amazon EC2 p2.xlarge instance
 ##  which runs a Tesla K80. 
 ##
 ##  UNI: srb2208
@@ -82,9 +82,10 @@ def load_cifar10():
     return xtrain_norm, np.array(ytrain_1hot), xtest_norm, np.array(ytest_1hot)
 
 # Build the neural network
+#
 # Output of evaluate(xtest, ytest_1hot):
-# 10000/10000 [==============================] - 5s 488us/step
-# [1.5083699712753296, 0.46129999999999999]
+# 10000/10000 [==============================] - 1s 77us/step
+# [1.4565485557556153, 0.48959999999999998]
 def build_multilayer_nn():
 
     # Create the neural network
@@ -122,12 +123,18 @@ def train_multilayer_nn(model, xtrain, ytrain):
 # - 2 convolutional layers with 32 feature maps and filter size 3x3
 # - 1 pooling layer to reduce the feature maps to 16x16
 # - 1 dropout layer which drops 25% of the units to prevent overfitting
-# - 2 convolutional layers with 32 feature maps of filter size 3x3
+# - 2 convolutional layers with 32 feature maps of filter size 5x5
 # - 1 pooling layer to reduce the feature maps to 8x8
 # - 1 dropout layer which drops 50% of the units to prevent overfitting
 # - 1 dense layer with 250 neurons
 # - 1 dense layer with 100 neurons
 # - 1 output layer which reduces the output to a 10 value array similar to a probability distribution
+#
+# My modification for part three was to change the second round of convolutions from 3x3 to 5x5
+# the idea behind the modification is that it would abstract the picture more and provide better results.
+# I saw an increase in accuracy by about 1%
+# 10000/10000 [==============================] - 1s 135us/step
+# [0.77206838741302486, 0.73060000000000003]
 def build_convolution_nn():
 
     # Create the neural network
@@ -214,9 +221,16 @@ def get_binary_cifar10():
     return xtrain_norm, np.reshape(ytrain, (50000,)), xtest_norm, np.reshape(ytest, (10000,))
 
 # Build the neural network
+# This net has:
+# - 1 convolutional layer with 32 feature maps and filter size 3x3
+# - 1 pooling layer to reduce the feature maps to 16x16
+# - 1 dropout layer which drops 25% of the units to prevent overfitting
+# - 1 dense layer with 10 neurons
+# - 1 output layer which reduces the output to a single value for animal or vehical
+#
 # Output of evaluate(xtest, ytest):
-# 10000/10000 [==============================] - 30s 3ms/step
-# [0.19405419319868089, 0.91920000000000002]
+# 10000/10000 [==============================] - 1s 93us/step
+# [0.2014081287920475, 0.91869999999999996]
 def build_binary_classifier(): 
 
     # Create the neural network
@@ -261,8 +275,6 @@ def train_binary_classifier(model, xtrain, ytrain):
 
 
 if __name__ == "__main__":
-
-    # Write any code for testing and evaluation in this main section.
 
     # Build, run and test multilayer network
     xtrain, ytrain_1hot, xtest, ytest_1hot = load_cifar10()
